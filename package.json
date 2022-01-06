@@ -1,6 +1,6 @@
 {
   "name": "@walts81/linq-ts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Typescript/Javascript LINQ implementation library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
