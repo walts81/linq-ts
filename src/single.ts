@@ -2,34 +2,30 @@ import { EmptyArrayException, MultipleMatchException, NoMatchException } from '.
 
 declare global {
   interface Array<T> {
-    single(expression?: (item: T) => boolean): T;
+    single(this: Array<T>, expression?: (item: T, index?: number) => boolean): T;
   }
 }
 
-Array.prototype.single = function<T>(expression?: (item: T) => boolean): T {
-  return single(this, expression);
-};
+Array.prototype.single = single;
 
-export default function single<T>(collection: T[], expression?: (item: T) => boolean): T {
-  if (collection.length === 0) {
-    throw new EmptyArrayException();
-  }
+export function single<T>(this: T[], expression?: (item: T, index?: number) => boolean): T {
+  const length = this.length;
+  if (length === 0) throw new EmptyArrayException();
 
-  const exp = expression || (x => true);
-  let result: T | null = null;
-  for (const x of collection) {
-    if (exp(x) === true) {
-      if (result == null) {
-        result = x;
-      } else {
-        throw new MultipleMatchException();
-      }
+  if (!expression)
+    if (length > 1) throw new MultipleMatchException();
+    else return this[0];
+
+  let result: T = undefined as any;
+  for (let i = 0; i < length; i++) {
+    const item = this[i];
+    if (expression(item, i)) {
+      if (result === undefined) result = item;
+      else throw new MultipleMatchException();
     }
   }
 
-  if (result == null) {
-    throw new NoMatchException();
-  }
+  if (result === undefined) throw new NoMatchException();
 
   return result;
 }

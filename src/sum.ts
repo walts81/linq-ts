@@ -1,12 +1,10 @@
 declare global {
   interface Array<T> {
-    sum(expression?: (item: T) => number): number;
+    sum(this: Array<T>, expression?: (item: T, index?: number) => number): number;
   }
 }
 
-Array.prototype.sum = function <T>(expression?: (item: T) => number): number {
-  return sum(this, expression);
-};
+Array.prototype.sum = sum;
 
 const getSafeNumber = (val: any) => {
   if (!val) return 0;
@@ -15,11 +13,11 @@ const getSafeNumber = (val: any) => {
   return isNaN(numVal) ? 0 : numVal;
 };
 
-export default function sum<T>(collection: T[], expression?: (item: T) => number): number {
-  const exp: (x: any) => number = expression || (x => x);
+export function sum<T>(this: T[], expression: (item: T, index?: number) => number | T = x => x): number {
   let amount = 0;
-  for (const x of collection) {
-    amount += getSafeNumber(exp(x));
+  const length = this.length;
+  for (let i = 0; i < length; i++) {
+    amount += getSafeNumber(expression(this[i], i));
   }
   return amount;
 }

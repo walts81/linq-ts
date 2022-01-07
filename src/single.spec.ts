@@ -12,12 +12,12 @@ describe('linq.single', () => {
 
   it('should return item at index zero when no predicate provided and only one item exists', () => {
     const result = single.single();
-    expect(result).to.equal(1);
+    expect(result).to.eq(1);
   });
 
   it('should return only item that matches predicate', () => {
     const result = collection.single(x => x === 3);
-    expect(result).to.equal(3);
+    expect(result).to.eq(3);
   });
 
   it('should throw error when no item matches predicate', () => {

@@ -20,4 +20,9 @@ describe('linq.all', () => {
     const result = empty.all(x => x < 5);
     expect(result).to.be.true;
   });
+
+  it('should return true when no expression given', () => {
+    const result = collection.all();
+    expect(result).to.be.true;
+  });
 });

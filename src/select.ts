@@ -1,17 +1,16 @@
 declare global {
   interface Array<T> {
-    select<TResult>(expression: (item: T) => TResult): TResult[];
+    select<TResult>(this: Array<T>, expression: (item: T, index?: number) => TResult): TResult[];
   }
 }
 
-Array.prototype.select = function<T, TResult>(expression: (item: T) => TResult): TResult[] {
-  return select(this, expression);
-};
+Array.prototype.select = select;
 
-export default function select<T, TResult>(collection: T[], expression: (item: T) => TResult): TResult[] {
+export function select<T, TResult>(this: T[], expression: (item: T, index?: number) => TResult): TResult[] {
   const result: TResult[] = [];
-  for (const x of collection) {
-    result.push(expression(x));
+  const length = this.length;
+  for (let i = 0; i < length; i++) {
+    result.push(expression(this[i], i));
   }
   return result;
 }

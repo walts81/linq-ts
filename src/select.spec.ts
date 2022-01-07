@@ -7,11 +7,11 @@ describe('linq.select', () => {
 
   it('should return array of prop values based on expression', () => {
     const result = collection.select(x => x.id);
-    expect(result.length).to.equal(5);
-    expect(result[0]).to.equal(1);
-    expect(result[1]).to.equal(2);
-    expect(result[2]).to.equal(3);
-    expect(result[3]).to.equal(4);
-    expect(result[4]).to.equal(5);
+    expect(result.length).to.eq(5);
+    expect(result[0]).to.eq(1);
+    expect(result[1]).to.eq(2);
+    expect(result[2]).to.eq(3);
+    expect(result[3]).to.eq(4);
+    expect(result[4]).to.eq(5);
   });
 });

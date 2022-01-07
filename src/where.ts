@@ -1,19 +1,11 @@
 declare global {
   interface Array<T> {
-    where(expression: (item: T) => boolean): T[];
+    where(this: Array<T>, expression: (item: T, index?: number) => boolean): T[];
   }
 }
 
-Array.prototype.where = function<T>(expression: (item: T) => boolean): T[] {
-  return where(this, expression);
-};
+Array.prototype.where = where;
 
-export default function where<T>(collection: T[], expression: (item: T) => boolean): T[] {
-  const results: T[] = [];
-  for (const x of collection) {
-    if (expression(x) === true) {
-      results.push(x);
-    }
-  }
-  return results;
+export function where<T>(this: T[], expression: (item: T, index?: number) => boolean): T[] {
+  return this.filter((x, i) => expression(x, i));
 }

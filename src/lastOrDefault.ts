@@ -1,20 +1,22 @@
 declare global {
   interface Array<T> {
-    lastOrDefault(expression?: (item: T) => boolean): T | null;
+    lastOrDefault(this: Array<T>, expression?: (item: T, index?: number) => boolean, defaultValue?: T): T | null;
   }
 }
 
-Array.prototype.lastOrDefault = function<T>(expression?: (item: T) => boolean): T | null {
-  return lastOrDefault(this, expression);
-};
+Array.prototype.lastOrDefault = lastOrDefault;
 
-export default function lastOrDefault<T>(collection: T[], expression?: (item: T) => boolean): T | null {
-  const exp = expression || (x => true);
-  for (let i = collection.length - 1; i >= 0; i--) {
-    const item = collection[i];
-    if (exp(item) === true) {
-      return item;
-    }
+export function lastOrDefault<T>(
+  this: T[],
+  expression?: (item: T, index?: number) => boolean,
+  defaultValue: T = null as any
+): T | null {
+  const length = this.length;
+  if (!expression) return length > 0 ? this[length - 1] : defaultValue;
+
+  for (let i = length - 1; i >= 0; i--) {
+    const item = this[i];
+    if (expression(item, i)) return item;
   }
-  return null;
+  return defaultValue;
 }

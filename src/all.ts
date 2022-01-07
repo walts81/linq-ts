@@ -1,18 +1,12 @@
 declare global {
   interface Array<T> {
-    all(expression: (item: T) => boolean): boolean;
+    all(this: Array<T>, expression?: (item: T, index?: number) => boolean): boolean;
   }
 }
 
-Array.prototype.all = function<T>(expression: (item: T) => boolean): boolean {
-  return all(this, expression);
-};
+Array.prototype.all = all;
 
-export default function all<T>(collection: T[], expression: (item: T) => boolean): boolean {
-  for (const x of collection) {
-    if (expression(x) === false) {
-      return false;
-    }
-  }
-  return true;
+export function all<T>(this: T[], expression?: (item: T, index?: number) => boolean) {
+  if (!expression) return true;
+  return this.every((x, i) => expression(x, i));
 }

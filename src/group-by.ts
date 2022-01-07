@@ -1,3 +1,5 @@
+import { getValueAsString } from './get-value-as-string';
+
 declare global {
   interface GroupedItems<T, TKey> {
     key: TKey;
@@ -5,25 +7,25 @@ declare global {
   }
 
   interface Array<T> {
-    groupBy<TKey>(expression: (item: T) => TKey): GroupedItems<T, TKey>[];
+    groupBy<TKey>(this: Array<T>, expression: (item: T, index?: number) => TKey): GroupedItems<T, TKey>[];
   }
 }
 
-Array.prototype.groupBy = function<T, TKey>(expression: (item: T) => TKey): GroupedItems<T, TKey>[] {
-  return groupBy(this, expression);
-};
+Array.prototype.groupBy = groupBy;
 
-export default function groupBy<T, TKey>(collection: T[], expression: (item: T) => TKey): GroupedItems<T, TKey>[] {
-  const groups: any = {};
-  const results: GroupedItems<T, TKey>[] = [];
-  for (const x of collection) {
-    const key = expression(x);
-    if (!groups[key]) {
-      const group: GroupedItems<T, TKey> = { key, items: [] };
-      groups[key] = group;
-      results.push(group);
-    }
-    groups[key].items.push(x);
-  }
-  return results;
+export function groupBy<T, TKey>(this: T[], expression: (item: T, index?: number) => TKey): GroupedItems<T, TKey>[] {
+  return this.reduce(
+    (prev, current, i) => {
+      const tempKey = expression(current, i);
+      const key = getValueAsString(tempKey);
+      if (!prev.groups[key]) {
+        const group = { key: tempKey, items: [] };
+        prev.groups[key] = group;
+        prev.results.push(group);
+      }
+      prev.groups[key].items.push(current);
+      return prev;
+    },
+    { groups: {}, results: [] as any[] }
+  ).results;
 }

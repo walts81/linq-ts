@@ -14,12 +14,12 @@ describe('linq.max', () => {
 
   it('should return max value (default item/default comparer)', () => {
     const result = collection.max();
-    expect(result).to.equal(5);
+    expect(result).to.eq(5);
   });
 
   it('should return max value (selector/default comparer)', () => {
     const result = collection2.max(x => x.id);
-    expect((result as any).id).to.equal(5);
+    expect((result as any).id).to.eq(5);
   });
 
   it('should return max value (selector/custom comparer)', () => {
@@ -32,7 +32,7 @@ describe('linq.max', () => {
       return a2 > b2 ? 1 : -1;
     };
     const result = collection2.max(x => x.id, minComparer);
-    expect((result as any).id).to.equal(1);
+    expect((result as any).id).to.eq(1);
   });
 
   it('should return max value (default item/custom comparer)', () => {
@@ -45,6 +45,6 @@ describe('linq.max', () => {
       return a2 > b2 ? 1 : -1;
     };
     const result = collection2.max(undefined, minComparer);
-    expect((result as any).id).to.equal(1);
+    expect((result as any).id).to.eq(1);
   });
 });

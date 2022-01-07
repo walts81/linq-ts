@@ -8,12 +8,12 @@ describe('linq.lastOrDefault', () => {
 
   it('should return item at index (length - 1) when no predicate provided', () => {
     const result = collection.lastOrDefault();
-    expect(result).to.equal(5);
+    expect(result).to.eq(5);
   });
 
   it('should return last item that matches predicate', () => {
     const result = collection.lastOrDefault(x => x > 1);
-    expect(result).to.equal(5);
+    expect(result).to.eq(5);
   });
 
   it('should not throw error when no item matches predicate', () => {
@@ -44,5 +44,10 @@ describe('linq.lastOrDefault', () => {
   it('should return null when empty array and predicate is provided', () => {
     const result = empty.lastOrDefault(x => x > 0);
     expect(result).to.be.null;
+  });
+
+  it('should default to provided value when not found', () => {
+    const result = empty.lastOrDefault(undefined, 1);
+    expect(result).to.eq(1);
   });
 });

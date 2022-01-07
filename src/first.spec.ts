@@ -10,12 +10,12 @@ describe('linq.first', () => {
 
   it('should return item at index zero when no predicate provided', () => {
     const result = collection.first();
-    expect(result).to.equal(1);
+    expect(result).to.eq(1);
   });
 
   it('should return first item that matches predicate', () => {
     const result = collection.first(x => x > 1);
-    expect(result).to.equal(2);
+    expect(result).to.eq(2);
   });
 
   it('should throw error when no item matches predicate', () => {

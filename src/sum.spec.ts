@@ -13,36 +13,36 @@ describe('linq.sum', () => {
 
   it('should return zero when array is empty', () => {
     const result = empty.sum();
-    expect(result).to.equal(0);
+    expect(result).to.eq(0);
   });
 
   it('should return sum when no selector provided', () => {
     const result = collection.sum();
-    expect(result).to.equal(15);
+    expect(result).to.eq(15);
   });
 
   it('should return sum when selector is provided', () => {
     const result = collection2.sum(x => x.id);
-    expect(result).to.equal(15);
+    expect(result).to.eq(15);
   });
 
   it('should exclude null', () => {
     const result = nullCollection.sum();
-    expect(result).to.equal(15);
+    expect(result).to.eq(15);
   });
 
   it('should exclude undefined', () => {
     const result = undefinedCollection.sum();
-    expect(result).to.equal(15);
+    expect(result).to.eq(15);
   });
 
   it('should exclude blank', () => {
     const result = blankCollection.sum();
-    expect(result).to.equal(15);
+    expect(result).to.eq(15);
   });
 
   it('should exclude alpha', () => {
     const result = alphaCollection.sum();
-    expect(result).to.equal(15);
+    expect(result).to.eq(15);
   });
 });

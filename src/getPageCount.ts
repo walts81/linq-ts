@@ -1,14 +1,12 @@
 declare global {
   interface Array<T> {
-    getPageCount(pageSize: number): number;
+    getPageCount(this: Array<T>, pageSize: number): number;
   }
 }
 
-Array.prototype.getPageCount = function(pageSize: number): number {
-  return getPageCount(this.length, pageSize);
-};
+Array.prototype.getPageCount = getPageCount;
 
-export default function getPageCount(total: number, pageSize: number): number {
+export const calculatePageCount = (total: number, pageSize: number) => {
   const x = total;
   const y = pageSize;
   let totalPages = Math.floor(x / y);
@@ -16,4 +14,8 @@ export default function getPageCount(total: number, pageSize: number): number {
     totalPages++;
   }
   return totalPages || 1;
+};
+
+export function getPageCount<T>(this: T[], pageSize: number): number {
+  return calculatePageCount(this.length, pageSize);
 }

@@ -1,17 +1,16 @@
 declare global {
   interface Array<T> {
-    reverse(): T[];
+    reverse(this: Array<T>): T[];
   }
 }
 
-Array.prototype.reverse = function<T>() {
-  return reverse<T>(this);
-};
+Array.prototype.reverse = reverse;
 
-export default function reverse<T>(collection: T[]): T[] {
+export function reverse<T>(this: T[]): T[] {
   const results: T[] = [];
-  for (let i = collection.length - 1; i >= 0; i--) {
-    results.push(collection[i]);
+  const length = this.length;
+  for (let i = length - 1; i >= 0; i--) {
+    results.push(this[i]);
   }
   return results;
 }

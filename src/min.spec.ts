@@ -14,12 +14,12 @@ describe('linq.min', () => {
 
   it('should return min value (default item/default comparer)', () => {
     const result = collection.min();
-    expect(result).to.equal(1);
+    expect(result).to.eq(1);
   });
 
   it('should return min value (selector/default comparer)', () => {
     const result = collection2.min(x => x.id);
-    expect((result as any).id).to.equal(1);
+    expect((result as any).id).to.eq(1);
   });
 
   it('should return min value (selector/custom comparer)', () => {
@@ -32,7 +32,7 @@ describe('linq.min', () => {
       return a2 > b2 ? 1 : -1;
     };
     const result = collection2.min(x => x.id, maxComparer);
-    expect((result as any).id).to.equal(5);
+    expect((result as any).id).to.eq(5);
   });
 
   it('should return min value (default item/custom comparer)', () => {
@@ -45,6 +45,6 @@ describe('linq.min', () => {
       return a2 > b2 ? 1 : -1;
     };
     const result = collection2.min(undefined, maxComparer);
-    expect((result as any).id).to.equal(5);
+    expect((result as any).id).to.eq(5);
   });
 });

@@ -10,12 +10,12 @@ describe('linq.last', () => {
 
   it('should return item at index (length - 1) when no predicate provided', () => {
     const result = collection.last();
-    expect(result).to.equal(5);
+    expect(result).to.eq(5);
   });
 
   it('should return last item that matches predicate', () => {
     const result = collection.last(x => x > 1);
-    expect(result).to.equal(5);
+    expect(result).to.eq(5);
   });
 
   it('should throw error when no item matches predicate', () => {

@@ -8,12 +8,12 @@ describe('linq.firstOrDefault', () => {
 
   it('should return item at index zero when no predicate provided', () => {
     const result = collection.firstOrDefault();
-    expect(result).to.equal(1);
+    expect(result).to.eq(1);
   });
 
   it('should return first item that matches predicate', () => {
     const result = collection.firstOrDefault(x => x > 1);
-    expect(result).to.equal(2);
+    expect(result).to.eq(2);
   });
 
   it('should not throw error when no item matches predicate', () => {
@@ -44,5 +44,10 @@ describe('linq.firstOrDefault', () => {
   it('should return null when empty array and predicate is provided', () => {
     const result = empty.firstOrDefault(x => x > 0);
     expect(result).to.be.null;
+  });
+
+  it('should default to provided value when not found', () => {
+    const result = empty.firstOrDefault(undefined, 1);
+    expect(result).to.eq(1);
   });
 });

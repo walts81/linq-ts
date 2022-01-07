@@ -1,22 +1,24 @@
 declare global {
   interface Array<T> {
-    distinct<TKey = T>(expression?: (item: T) => TKey | T): T[];
+    distinctByKey<TKey = T>(this: Array<T>, expression?: (item: T, index?: number) => TKey | T): T[];
+    distinct<T>(this: Array<T>, compare?: (a: T, b: T) => boolean): T[];
   }
 }
 
-Array.prototype.distinct = function<T, TKey = T>(expression?: (item: T) => TKey | T): T[] {
-  return distinct(this, expression as any);
-};
+Array.prototype.distinctByKey = distinctByKey;
+Array.prototype.distinct = distinct;
 
-export default function distinct<T, TKey = T>(collection: T[], expression: (item: T) => TKey | T = x => x): T[] {
-  const results: T[] = [];
+export function distinctByKey<T, TKey = T>(this: T[], expression: (item: T, index?: number) => TKey | T = x => x): T[] {
   const keys: Array<TKey | T> = [];
-  for (const x of collection) {
-    const key = expression(x);
-    if (keys.indexOf(key) < 0) {
-      keys.push(key);
-      results.push(x);
-    }
-  }
-  return results;
+  return this.filter((x, i) => {
+    const key = expression(x, i);
+    const notExists = keys.indexOf(key) < 0;
+    if (notExists) keys.push(key);
+    return notExists;
+  });
+}
+
+export function distinct<T>(this: T[], compare?: (a: T, b: T) => boolean) {
+  const useCompare = !!compare;
+  return this.filter((a, i, arr) => arr.indexOf(arr.first(b => (useCompare ? compare(a, b) : a === b))) === i);
 }

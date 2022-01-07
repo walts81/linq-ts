@@ -1,18 +1,12 @@
 declare global {
   interface Array<T> {
-    any(expression: (item: T) => boolean): boolean;
+    any(this: Array<T>, expression?: (item: T, index?: number) => boolean): boolean;
   }
 }
 
-Array.prototype.any = function<T>(expression: (item: T) => boolean): boolean {
-  return any(this, expression);
-};
+Array.prototype.any = any;
 
-export default function any<T>(collection: T[], expression: (item: T) => boolean): boolean {
-  for (const x of collection) {
-    if (expression(x) === true) {
-      return true;
-    }
-  }
-  return false;
+export function any<T>(this: T[], expression?: (item: T, index?: number) => boolean): boolean {
+  if (!expression) return this.length > 0;
+  return this.some((x, i) => expression(x, i));
 }

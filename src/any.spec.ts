@@ -20,4 +20,14 @@ describe('linq.any', () => {
     const result = empty.any(x => x > 0);
     expect(result).to.be.false;
   });
+
+  it('should return true when no expression given and array is not empty', () => {
+    const result = collection.any();
+    expect(result).to.be.true;
+  });
+
+  it('should return false when no expression given and array is empty', () => {
+    const result = empty.any();
+    expect(result).to.be.false;
+  });
 });

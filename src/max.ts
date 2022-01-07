@@ -1,36 +1,22 @@
-import { Comparer, DefaultComparer, EmptyArrayException } from './_common';
+import { minOrMax } from './min-or-max';
+import { DefaultComparer } from './_common';
 
 declare global {
   interface Array<T> {
-    max<TProp>(selector?: (item: T) => TProp, comparer?: (a: TProp, b: TProp) => number): T | null;
+    max<TProp>(
+      this: Array<T>,
+      selector?: (item: T, index?: number) => TProp,
+      comparer?: (a: TProp, b: TProp) => number
+    ): T | null;
   }
 }
 
-Array.prototype.max = function<T, TProp>(
-  selector?: (item: T) => TProp,
-  comparer?: (a: TProp, b: TProp) => number
+Array.prototype.max = max;
+
+export function max<T, TProp>(
+  this: T[],
+  selector: (item: T, index?: number) => TProp | T = x => x,
+  comparer: (a: TProp | T, b: TProp | T) => number = DefaultComparer
 ): T | null {
-  return max(this, selector, comparer);
-};
-
-export default function max<T, TProp>(
-  collection: T[],
-  selector?: (item: T) => TProp,
-  comparer?: (a: TProp, b: TProp) => number
-): T | null {
-  if (collection.length === 0) {
-    throw new EmptyArrayException();
-  }
-
-  const sel = selector || (x => x);
-  const comp: Comparer = comparer || DefaultComparer;
-
-  let result: T | null = null;
-  for (const x of collection) {
-    if (result == null || comp(sel(x), sel(result)) > 0) {
-      result = x;
-    }
-  }
-
-  return result;
+  return minOrMax(this, selector, comparer, 'max');
 }

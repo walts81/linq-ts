@@ -2,23 +2,22 @@ import { EmptyArrayException, NoMatchException } from './_common';
 
 declare global {
   interface Array<T> {
-    first(expression?: (item: T) => boolean): T;
+    first(this: Array<T>, expression?: (item: T, index?: number) => boolean): T;
   }
 }
 
-Array.prototype.first = function<T>(expression?: (item: T) => boolean): T {
-  return first(this, expression);
-};
+Array.prototype.first = first;
 
-export default function first<T>(collection: T[], expression?: (item: T) => boolean): T {
-  if (collection.length === 0) {
-    throw new EmptyArrayException();
-  }
+export function first<T>(this: T[], expression?: (item: T, index?: number) => boolean): T {
+  const length = this.length;
+  if (length === 0) throw new EmptyArrayException();
 
-  const exp = expression || (x => true);
-  for (const x of collection) {
-    if (exp(x) === true) {
-      return x;
+  if (!expression) return this[0];
+
+  for (let i = 0; i < length; i++) {
+    const item = this[i];
+    if (expression(item, i)) {
+      return item;
     }
   }
 

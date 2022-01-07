@@ -1,6 +1,8 @@
 /* tslint:disable:max-classes-per-file */
-export class LinqException {
-  constructor(readonly name: string, readonly message: string) {}
+export class LinqException extends Error {
+  constructor(readonly name: string, readonly message: string) {
+    super(message);
+  }
 }
 
 export class NoMatchException extends LinqException {
@@ -21,5 +23,12 @@ export class MultipleMatchException extends LinqException {
   }
 }
 
-export type Comparer = (a: any, b: any) => number;
-export const DefaultComparer: Comparer = (a: any, b: any) => (a > b ? 1 : a === b ? 0 : -1);
+const dupeKeyMsg = 'Key already exists';
+export class DuplicateKeyException extends LinqException {
+  constructor(key?: string) {
+    super('DuplicateKeyException', !!key ? `${dupeKeyMsg} (key: ${key})` : dupeKeyMsg);
+  }
+}
+
+export type Comparer<T = any> = (a: T, b: T) => number;
+export const DefaultComparer: Comparer = (a, b) => (a > b ? 1 : a === b ? 0 : -1);
