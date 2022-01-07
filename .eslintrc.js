@@ -26,7 +26,7 @@ module.exports = {
     'object-literal-sort-keys': 'off',
     'only-arrow-functions': 'off',
     'ordered-imports': 'off',
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { allowTemplateLiterals: true }],
     'comma-dangle': [
       'error',
       {
