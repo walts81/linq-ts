@@ -1,14 +1,15 @@
 # LINQ-TS
 
-[![Build Status](https://travis-ci.com/walts81/linq-ts.svg?branch=master)](https://travis-ci.com/walts81/linq-ts)
-[![Coverage Status](https://coveralls.io/repos/github/walts81/linq-ts/badge.svg)](https://coveralls.io/github/walts81/linq-ts)
-
 LINQ-TS is a typescript library with the most common LINQ implementations for TypesScript/JavaScript.
 
-### Installation
+[![Build Status](https://app.travis-ci.com/walts81/linq-ts.svg?branch=master)](https://app.travis-ci.com/walts81/linq-ts)
+[![Coverage Status](https://coveralls.io/repos/github/walts81/linq-ts/badge.svg?branch=master)](https://coveralls.io/github/walts81/linq-ts?branch=master)
+[![NPM Version](https://img.shields.io/npm/v/@walts81/linq-ts.svg)](https://www.npmjs.com/package/@walts81/linq-ts)
 
-Install linq-ts with npm
+## Installaing LINQ-TS
 
-```sh
-$ npm install @walts81/linq-ts --save
+Install and add to `dependencies`:
+
+```
+npm install --save @walts81/linq-ts
 ```
